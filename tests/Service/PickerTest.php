@@ -36,4 +36,22 @@ class PickerTest extends TestCase
         $this->assertInstanceOf(Collection::class, $hosts);
         $this->assertCount(5, $hosts);
     }
+
+    /** @test */
+    public function comments_for_multiple_events_are_flattened_and_combined()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /** @test */
+    public function comments_from_event_hosts_cannot_be_picked()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /** @test */
+    public function a_winner_can_be_selected()
+    {
+        $this->markTestIncomplete();
+    }
 }
