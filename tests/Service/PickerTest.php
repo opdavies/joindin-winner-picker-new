@@ -40,7 +40,22 @@ class PickerTest extends TestCase
     /** @test */
     public function comments_for_multiple_events_are_flattened_and_combined()
     {
-        $this->markTestIncomplete();
+        $data = [
+            [
+                ['comment' => 'Great talk!'],
+                ['comment' => 'Could be better.'],
+            ],
+            [
+                ['comment' => 'Needs more cat pictures.'],
+            ],
+        ];
+
+        $picker = new Picker();
+        $picker->setComments(collect($data));
+
+        $comments = $picker->getComments();
+        $this->assertInstanceOf(Collection::class, $comments);
+        $this->assertCount(3, $comments);
     }
 
     /** @test */

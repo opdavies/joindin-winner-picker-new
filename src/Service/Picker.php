@@ -14,11 +14,27 @@ class Picker
     private $hosts;
 
     /**
+     * @var \Tightenco\Collect\Support\Collection
+     */
+    private $comments;
+
+    /**
      * Picker constructor.
      */
     public function __construct()
     {
+        $this->comments = collect();
         $this->hosts = collect();
+    }
+
+    /**
+     * Retrieve the combined comments for all events.
+     *
+     * @return \Tightenco\Collect\Support\Collection
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
     }
 
     /**
@@ -47,5 +63,15 @@ class Picker
             ->sort();
 
         return $this;
+    }
+
+    /**
+     * Set the comments for the events.
+     *
+     * @param \Tightenco\Collect\Support\Collection $comments
+     */
+    public function setComments(Collection $comments)
+    {
+        $this->comments = $comments->flatten(1)->values();
     }
 }
