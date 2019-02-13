@@ -2,6 +2,9 @@
     "doctrine/inflector": {
         "version": "v1.3.0"
     },
+    "facebook/webdriver": {
+        "version": "1.6.0"
+    },
     "guzzlehttp/guzzle": {
         "version": "6.3.3"
     },
@@ -32,6 +35,9 @@
     "ralouphie/getallheaders": {
         "version": "2.0.5"
     },
+    "symfony/browser-kit": {
+        "version": "v4.2.3"
+    },
     "symfony/cache": {
         "version": "v4.2.3"
     },
@@ -50,10 +56,16 @@
     "symfony/contracts": {
         "version": "v1.0.2"
     },
+    "symfony/css-selector": {
+        "version": "v4.2.3"
+    },
     "symfony/debug": {
         "version": "v4.2.3"
     },
     "symfony/dependency-injection": {
+        "version": "v4.2.3"
+    },
+    "symfony/dom-crawler": {
         "version": "v4.2.3"
     },
     "symfony/dotenv": {
@@ -101,11 +113,26 @@
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
     },
+    "symfony/panther": {
+        "version": "v0.2.0"
+    },
+    "symfony/phpunit-bridge": {
+        "version": "4.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.1",
+            "ref": "0e548dd90adba18fabd4ef419b14d361fe4d6c74"
+        }
+    },
     "symfony/polyfill-mbstring": {
         "version": "v1.10.0"
     },
     "symfony/polyfill-php72": {
         "version": "v1.10.0"
+    },
+    "symfony/process": {
+        "version": "v4.2.3"
     },
     "symfony/routing": {
         "version": "4.2",
@@ -115,6 +142,9 @@
             "version": "4.2",
             "ref": "5374e24d508ba8fd6ba9eb15170255fdb778316a"
         }
+    },
+    "symfony/test-pack": {
+        "version": "v1.0.5"
     },
     "symfony/var-dumper": {
         "version": "v4.2.3"
