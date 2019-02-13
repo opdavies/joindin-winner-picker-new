@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use GuzzleHttp\Client;
+use Symfony\Component\Cache\Simple\FilesystemCache;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,12 +15,15 @@ class PickWinnerCommand extends Command
 {
     protected static $defaultName = 'app:pick-winner';
 
-    private $guzzle;
+    /**
+     * @var \GuzzleHttp\Client
+     */
+    private $client;
 
     public function __construct()
     {
       parent::__construct();
-        $this->guzzle = new Client();
+        $this->client = new Client();
     }
 
     protected function configure()
@@ -47,5 +51,20 @@ class PickWinnerCommand extends Command
         ]);
 
 //        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+        $cache = new FilesystemCache();
+        $cacheKey = md5(collect([$tag, $startDate, $endDate])->implode('_'));
+
+        if (!$events = $cache->get($cacheKey)) {
+            $response = $this->client->get('http://api.joind.in/v2.1/events', [
+                'query' => [
+                    'tags' => [$tag],
+                    'startdate' => $startDate,
+                    'enddate' => $endDate,
+                    'verbose' => 'yes',
+                ]
+            ]);
+
+            $cache->set($cacheKey, json_decode($response->getBody())->events, 3600);
+        }
     }
 }
