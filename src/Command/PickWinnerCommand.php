@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Service\Picker;
 use GuzzleHttp\Client;
 use Symfony\Component\Cache\Simple\FilesystemCache;
 use Symfony\Component\Console\Command\Command;
@@ -19,10 +20,22 @@ class PickWinnerCommand extends Command
      */
     private $client;
 
-    public function __construct()
+    /**
+     * @var \App\Service\Picker
+     */
+    private $picker;
+
+    /**
+     * PickWinnerCommand constructor.
+     *
+     * @param \App\Service\Picker $picker
+     *   The Picker service.
+     */
+    public function __construct(Picker $picker)
     {
       parent::__construct();
         $this->client = new Client();
+        $this->picker = $picker;
     }
 
     /**
