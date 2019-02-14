@@ -5,6 +5,7 @@
         "php": "^7.1.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-json": "^1.5",
         "guzzlehttp/guzzle": "^6.3",
         "josephlavin/tap": "^1.0",
         "symfony/cache": "4.2.*",
