@@ -14,6 +14,9 @@
     "guzzlehttp/psr7": {
         "version": "1.5.2"
     },
+    "josephlavin/tap": {
+        "version": "v1.0.0"
+    },
     "nikic/php-parser": {
         "version": "v4.2.0"
     },

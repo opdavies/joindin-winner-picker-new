@@ -69,8 +69,11 @@ class Picker
      * Set the comments for the events.
      *
      * @param \Tightenco\Collect\Support\Collection $comments
+     *   A collection of comments.
+     *
+     * @return $this
      */
-    public function setComments(Collection $comments)
+    public function setComments(Collection $comments): self
     {
         $this->comments = $comments
             ->flatten(1)
@@ -93,5 +96,18 @@ class Picker
     private function isUserAnEventHost(string $user_display_name): bool
     {
         return $this->hosts->contains($user_display_name);
+    }
+
+    /**
+     * Select and return the winners.
+     *
+     * @param int $count
+     *   The number of winners.
+     *
+     * @return \Tightenco\Collect\Support\Collection
+     */
+    public function getWinners(int $count): Collection
+    {
+        return $this->getComments()->random($count);
     }
 }

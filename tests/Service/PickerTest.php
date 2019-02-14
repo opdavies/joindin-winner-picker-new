@@ -104,8 +104,38 @@ class PickerTest extends TestCase
     }
 
     /** @test */
-    public function a_winner_can_be_selected()
+    public function winners_can_be_selected()
     {
-        $this->markTestIncomplete();
+        $comments = [
+            [
+                [
+                    'comment' => 'Great talk!',
+                    'user_display_name' => 'Peter Fisher',
+                ],
+                [
+                    'comment' => 'Text on slides could be bigger.',
+                    'user_display_name' => 'Michael Bush',
+                ],
+                [
+                    'comment' => 'Speak slower.',
+                    'user_display_name' => 'Zan Baldwin',
+                ],
+            ],
+        ];
+
+        $picker = new Picker();
+        $picker->setComments(collect($comments));
+        $this->assertCount(3, $picker->getComments());
+
+        tap($picker->getWinners(1), function (Collection $winners) use ($picker) {
+            $this->assertCount(1, $winners);
+            $this->assertTrue($picker->getComments()->contains($winners->first()));
+        });
+
+        tap($picker->getWinners(2), function (Collection $winners) use ($picker) {
+            $this->assertCount(2, $winners);
+            $this->assertTrue($picker->getComments()->contains($winners->first()));
+            $this->assertTrue($picker->getComments()->contains($winners->last()));
+        });
     }
 }
