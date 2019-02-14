@@ -2,6 +2,7 @@
 
 namespace App\Tests\Service;
 
+use App\Comment;
 use App\Service\Picker;
 use PHPUnit\Framework\TestCase;
 use Tightenco\Collect\Support\Collection;
@@ -125,12 +126,17 @@ class PickerTest extends TestCase
 
         tap($picker->getWinners(1), function (Collection $winners) use ($picker) {
             $this->assertCount(1, $winners);
+            $this->assertInstanceOf(Comment::class, $winners->first());
             $this->assertTrue($picker->getComments()->contains($winners->first()));
         });
 
         tap($picker->getWinners(2), function (Collection $winners) use ($picker) {
             $this->assertCount(2, $winners);
+
+            $this->assertInstanceOf(Comment::class, $winners->first());
             $this->assertTrue($picker->getComments()->contains($winners->first()));
+
+            $this->assertInstanceOf(Comment::class, $winners->last());
             $this->assertTrue($picker->getComments()->contains($winners->last()));
         });
     }
