@@ -85,6 +85,8 @@ class Picker
                 return tap(new Comment(), function (Comment $comment) use ($original) {
                     $comment->setText($original->comment);
                     $comment->setUserDisplayName($original->user_display_name);
+                    $comment->setUri($original->uri);
+                    $comment->setTalkTitle($original->talk_title);
                 });
             })
             ->values();

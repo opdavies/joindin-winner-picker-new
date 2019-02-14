@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Comment;
 use App\Service\Picker;
 use GuzzleHttp\Client;
 use Symfony\Component\Cache\Simple\FilesystemCache;
@@ -65,16 +66,30 @@ class PickWinnerCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
+        $io->title('Joind.in Winner Picker!');
+
         $tag = $input->getArgument('tag');
         $startDate = (new \DateTime($input->getArgument('start')))->format('Y-m-d');
         $endDate = (new \DateTime($input->getArgument('end')))->format('Y-m-d');
 
+        $io->comment(vsprintf('Selecting from #%s events between %s and %s.', [
+            $tag,
+            $startDate,
+            $endDate,
+        ]));
 
         $events = collect($this->getEventData($tag, $startDate, $endDate));
         $this->picker->setHosts($events);
         $this->picker->setComments($this->allComments($events));
 
-        var_dump($this->picker->getWinners(1)->first());
+        $this->picker->getWinners(1)->each(function (Comment $comment) use ($io) {
+            $io->section(vsprintf('%s (%s)', [
+                $comment->getUserDisplayName(),
+                $comment->getTalkTitle(),
+            ]));
+            $io->text($comment->getText());
+            $io->text($comment->getUri());
+        });
     }
 
     /**
