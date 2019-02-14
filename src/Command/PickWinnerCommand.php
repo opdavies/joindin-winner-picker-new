@@ -69,28 +69,8 @@ class PickWinnerCommand extends Command
         $startDate = (new \DateTime($input->getArgument('start')))->format('Y-m-d');
         $endDate = (new \DateTime($input->getArgument('end')))->format('Y-m-d');
 
-        var_dump([
-          'tag' => $tag,
-          'start date' => $startDate,
-          'end date' => $endDate,
-        ]);
 
-        $cacheKey = md5(collect(['events:', $tag, $startDate, $endDate])->implode('_'));
-
-        if (!$events = $this->cache->get($cacheKey)) {
-            $response = $this->client->get('http://api.joind.in/v2.1/events', [
-                'query' => [
-                    'tags' => [$tag],
-                    'startdate' => $startDate,
-                    'enddate' => $endDate,
-                    'verbose' => 'yes',
-                ]
-            ]);
-
-            $this->cache->set($cacheKey, json_decode($response->getBody())->events, 3600);
-        }
-
-        $events = collect($events);
+        $events = collect($this->getEventData($tag, $startDate, $endDate));
         $this->picker->setHosts($events);
         $this->picker->setComments($this->allComments($events));
 
@@ -152,5 +132,41 @@ class PickWinnerCommand extends Command
         )->getBody();
 
         return collect(json_decode($response)->comments);
+    }
+
+    /**
+     * Get the event data.
+     *
+     * @param string $tag
+     *   The tag to search for.
+     * @param string $startDate
+     *   The start date limit.
+     * @param string $endDate
+     *   The end date limit.
+     *
+     * @return array
+     *
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    private function getEventData(string $tag, string $startDate, string $endDate): array
+    {
+        $cacheKey = md5(collect(['events:', $tag, $startDate, $endDate])->implode('_'));
+
+        if (!$events = $this->cache->get($cacheKey)) {
+            $response = $this->client->get('http://api.joind.in/v2.1/events', [
+                'query' => [
+                    'tags' => [$tag],
+                    'startdate' => $startDate,
+                    'enddate' => $endDate,
+                    'verbose' => 'yes',
+                ],
+            ]);
+
+            $events = json_decode($response->getBody())->events;
+            $this->cache->set($cacheKey, $events, 3600);
+        }
+
+        return $events;
     }
 }
