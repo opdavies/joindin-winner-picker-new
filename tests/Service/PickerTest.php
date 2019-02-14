@@ -44,14 +44,17 @@ class PickerTest extends TestCase
         $comment1 = new \stdClass();
         $comment1->comment = 'Great talk!';
         $comment1->user_display_name = 'Dan Ackroyd';
+        $comment1->uri = 'http://api.joind.in/v2.1/talk_comments/123';
 
         $comment2 = new \stdClass();
         $comment2->comment = 'Could be better.';
         $comment2->user_display_name = 'Lucia Velasco';
+        $comment2->uri = 'http://api.joind.in/v2.1/talk_comments/456';
 
         $comment3 = new \stdClass();
         $comment3->comment = 'Needs more cat pictures.';
         $comment3->user_display_name = 'Rupert Jabelman';
+        $comment3->uri = 'http://api.joind.in/v2.1/talk_comments/789';
 
         $data = [
             [$comment1, $comment2],
@@ -78,14 +81,17 @@ class PickerTest extends TestCase
         $comment1 = new \stdClass();
         $comment1->comment = 'Great talk!';
         $comment1->user_display_name = 'Peter Fisher';
+        $comment1->uri = 'http://api.joind.in/v2.1/talk_comments/123';
 
         $comment2 = new \stdClass();
         $comment2->comment = 'Text on slides could be bigger.';
         $comment2->user_display_name = 'Oliver Davies';
+        $comment2->uri = 'http://api.joind.in/v2.1/talk_comments/456';
 
         $comment3 = new \stdClass();
         $comment3->comment = 'Speak slower.';
         $comment3->user_display_name = 'Zan Baldwin';
+        $comment3->uri = 'http://api.joind.in/v2.1/talk_comments/789';
 
         $comments = [
             [$comment1, $comment2, $comment3],
@@ -107,14 +113,17 @@ class PickerTest extends TestCase
         $comment1 = new \stdClass();
         $comment1->comment = 'Great talk!';
         $comment1->user_display_name = 'Peter Fisher';
+        $comment1->uri = 'http://api.joind.in/v2.1/talk_comments/123';
 
         $comment2 = new \stdClass();
         $comment2->comment = 'Text on slides could be bigger.';
         $comment2->user_display_name = 'Michael Bush';
+        $comment2->uri = 'http://api.joind.in/v2.1/talk_comments/456';
 
         $comment3 = new \stdClass();
         $comment3->comment = 'Speak slower.';
         $comment3->user_display_name = 'Zan Baldwin';
+        $comment3->uri = 'http://api.joind.in/v2.1/talk_comments/789';
 
         $comments = [
             [$comment1, $comment2, $comment3],
