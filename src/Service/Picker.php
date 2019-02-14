@@ -72,6 +72,26 @@ class Picker
      */
     public function setComments(Collection $comments)
     {
-        $this->comments = $comments->flatten(1)->values();
+        $this->comments = $comments
+            ->flatten(1)
+            ->filter(function (array $comment) {
+                return !$this->isUserAnEventHost($comment['user_display_name']);
+            })
+            ->values();
+
+        return $this;
+    }
+
+    /**
+     * Determine whether a commenter is an event host.
+     *
+     * @param string $user_display_name
+     *   The user's display name.
+     *
+     * @return bool
+     */
+    private function isUserAnEventHost(string $user_display_name): bool
+    {
+        return $this->hosts->contains($user_display_name);
     }
 }

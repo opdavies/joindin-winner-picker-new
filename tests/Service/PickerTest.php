@@ -42,11 +42,20 @@ class PickerTest extends TestCase
     {
         $comments = [
             [
-                ['comment' => 'Great talk!'],
-                ['comment' => 'Could be better.'],
+                [
+                    'comment' => 'Great talk!',
+                    'user_display_name' => 'Dan Ackroyd',
+                ],
+                [
+                    'comment' => 'Could be better.',
+                    'user_display_name' => 'Lucia Velasco',
+                ],
             ],
             [
-                ['comment' => 'Needs more cat pictures.'],
+                [
+                    'comment' => 'Needs more cat pictures.',
+                    'user_display_name' => 'Rupert Jabelman',
+                ],
             ],
         ];
 
@@ -61,7 +70,37 @@ class PickerTest extends TestCase
     /** @test */
     public function comments_from_event_hosts_cannot_be_picked()
     {
-        $this->markTestIncomplete();
+        $event = [
+            'hosts' => [
+                ['host_name' => 'Oliver Davies'],
+            ],
+        ];
+
+        $comments = [
+            [
+                [
+                    'comment' => 'Great talk!',
+                    'user_display_name' => 'Peter Fisher',
+                ],
+                [
+                    'comment' => 'Text on slides could be bigger.',
+                    'user_display_name' => 'Oliver Davies',
+                ],
+                [
+                    'comment' => 'Speak slower.',
+                    'user_display_name' => 'Zan Baldwin',
+                ],
+            ],
+        ];
+
+        $comments = (new Picker())
+            ->setHosts(collect([$event]))
+            ->setComments(collect($comments))
+            ->getComments();
+
+        $this->assertCount(2, $comments);
+        $this->assertSame('Peter Fisher', $comments[0]['user_display_name']);
+        $this->assertSame('Zan Baldwin', $comments[1]['user_display_name']);
     }
 
     /** @test */
