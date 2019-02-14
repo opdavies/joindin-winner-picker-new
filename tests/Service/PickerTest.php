@@ -41,20 +41,25 @@ class PickerTest extends TestCase
     /** @test */
     public function comments_for_multiple_events_are_flattened_and_combined()
     {
+        $talkTitle = 'A cool Symfony Flex talk';
+
         $comment1 = new \stdClass();
         $comment1->comment = 'Great talk!';
         $comment1->user_display_name = 'Dan Ackroyd';
         $comment1->uri = 'http://api.joind.in/v2.1/talk_comments/123';
+        $comment1->talk_title = $talkTitle;
 
         $comment2 = new \stdClass();
         $comment2->comment = 'Could be better.';
         $comment2->user_display_name = 'Lucia Velasco';
         $comment2->uri = 'http://api.joind.in/v2.1/talk_comments/456';
+        $comment2->talk_title = $talkTitle;
 
         $comment3 = new \stdClass();
         $comment3->comment = 'Needs more cat pictures.';
         $comment3->user_display_name = 'Rupert Jabelman';
         $comment3->uri = 'http://api.joind.in/v2.1/talk_comments/789';
+        $comment3->talk_title = $talkTitle;
 
         $data = [
             [$comment1, $comment2],
@@ -78,20 +83,25 @@ class PickerTest extends TestCase
             ],
         ];
 
+        $talkTitle = 'Another awesome PHP talk';
+
         $comment1 = new \stdClass();
         $comment1->comment = 'Great talk!';
         $comment1->user_display_name = 'Peter Fisher';
         $comment1->uri = 'http://api.joind.in/v2.1/talk_comments/123';
+        $comment1->talk_title = $talkTitle;
 
         $comment2 = new \stdClass();
         $comment2->comment = 'Text on slides could be bigger.';
         $comment2->user_display_name = 'Oliver Davies';
         $comment2->uri = 'http://api.joind.in/v2.1/talk_comments/456';
+        $comment2->talk_title = $talkTitle;
 
         $comment3 = new \stdClass();
         $comment3->comment = 'Speak slower.';
         $comment3->user_display_name = 'Zan Baldwin';
         $comment3->uri = 'http://api.joind.in/v2.1/talk_comments/789';
+        $comment3->talk_title = $talkTitle;
 
         $comments = [
             [$comment1, $comment2, $comment3],
@@ -110,20 +120,25 @@ class PickerTest extends TestCase
     /** @test */
     public function winners_can_be_selected()
     {
+        $talkTitle = 'A super talk about PHP';
+
         $comment1 = new \stdClass();
         $comment1->comment = 'Great talk!';
         $comment1->user_display_name = 'Peter Fisher';
         $comment1->uri = 'http://api.joind.in/v2.1/talk_comments/123';
+        $comment1->talk_title = $talkTitle;
 
         $comment2 = new \stdClass();
         $comment2->comment = 'Text on slides could be bigger.';
         $comment2->user_display_name = 'Michael Bush';
         $comment2->uri = 'http://api.joind.in/v2.1/talk_comments/456';
+        $comment2->talk_title = $talkTitle;
 
         $comment3 = new \stdClass();
         $comment3->comment = 'Speak slower.';
         $comment3->user_display_name = 'Zan Baldwin';
         $comment3->uri = 'http://api.joind.in/v2.1/talk_comments/789';
+        $comment3->talk_title = $talkTitle;
 
         $comments = [
             [$comment1, $comment2, $comment3],
