@@ -129,8 +129,8 @@ class PickWinnerCommand extends Command
         // TODO: Cache this.
         $response = $this->client->get(
             $event->comments_uri,
-            ['query' => ['resultsperpage' => 1000]])
-        ->getBody();
+            ['query' => ['resultsperpage' => 1000]]
+        )->getBody();
 
         return collect(json_decode($response)->comments);
     }
