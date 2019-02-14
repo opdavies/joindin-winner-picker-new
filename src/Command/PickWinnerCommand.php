@@ -126,6 +126,7 @@ class PickWinnerCommand extends Command
      */
     private function eventComments(\stdClass $event): Collection
     {
+        // TODO: Cache this.
         $response = $this->client->get(
             $event->comments_uri,
             ['query' => ['resultsperpage' => 1000]])
@@ -144,6 +145,7 @@ class PickWinnerCommand extends Command
      */
     private function talkComments(\stdClass $event): Collection
     {
+        // TODO: Cache this.
         $response = $this->client->get(
             $event->all_talk_comments_uri,
             ['query' => ['resultsperpage' => 1000]]
