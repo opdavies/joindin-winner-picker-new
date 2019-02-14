@@ -40,23 +40,21 @@ class PickerTest extends TestCase
     /** @test */
     public function comments_for_multiple_events_are_flattened_and_combined()
     {
+        $comment1 = new \stdClass();
+        $comment1->comment = 'Great talk!';
+        $comment1->user_display_name = 'Dan Ackroyd';
+
+        $comment2 = new \stdClass();
+        $comment2->comment = 'Could be better.';
+        $comment2->user_display_name = 'Lucia Velasco';
+
+        $comment3 = new \stdClass();
+        $comment3->comment = 'Needs more cat pictures.';
+        $comment3->user_display_name = 'Rupert Jabelman';
+
         $data = [
-            [
-                [
-                    'comment' => 'Great talk!',
-                    'user_display_name' => 'Dan Ackroyd',
-                ],
-                [
-                    'comment' => 'Could be better.',
-                    'user_display_name' => 'Lucia Velasco',
-                ],
-            ],
-            [
-                [
-                    'comment' => 'Needs more cat pictures.',
-                    'user_display_name' => 'Rupert Jabelman',
-                ],
-            ],
+            [$comment1, $comment2],
+            [$comment3],
         ];
 
         $comments = (new Picker())
@@ -76,21 +74,20 @@ class PickerTest extends TestCase
             ],
         ];
 
+        $comment1 = new \stdClass();
+        $comment1->comment = 'Great talk!';
+        $comment1->user_display_name = 'Peter Fisher';
+
+        $comment2 = new \stdClass();
+        $comment2->comment = 'Text on slides could be bigger.';
+        $comment2->user_display_name = 'Oliver Davies';
+
+        $comment3 = new \stdClass();
+        $comment3->comment = 'Speak slower.';
+        $comment3->user_display_name = 'Zan Baldwin';
+
         $comments = [
-            [
-                [
-                    'comment' => 'Great talk!',
-                    'user_display_name' => 'Peter Fisher',
-                ],
-                [
-                    'comment' => 'Text on slides could be bigger.',
-                    'user_display_name' => 'Oliver Davies',
-                ],
-                [
-                    'comment' => 'Speak slower.',
-                    'user_display_name' => 'Zan Baldwin',
-                ],
-            ],
+            [$comment1, $comment2, $comment3],
         ];
 
         $comments = (new Picker())
@@ -99,28 +96,27 @@ class PickerTest extends TestCase
             ->getComments();
 
         $this->assertCount(2, $comments);
-        $this->assertSame('Peter Fisher', $comments[0]['user_display_name']);
-        $this->assertSame('Zan Baldwin', $comments[1]['user_display_name']);
+        $this->assertSame('Peter Fisher', $comments[0]->user_display_name);
+        $this->assertSame('Zan Baldwin', $comments[1]->user_display_name);
     }
 
     /** @test */
     public function winners_can_be_selected()
     {
+        $comment1 = new \stdClass();
+        $comment1->comment = 'Great talk!';
+        $comment1->user_display_name = 'Peter Fisher';
+
+        $comment2 = new \stdClass();
+        $comment2->comment = 'Text on slides could be bigger.';
+        $comment2->user_display_name = 'Michael Bush';
+
+        $comment3 = new \stdClass();
+        $comment3->comment = 'Speak slower.';
+        $comment3->user_display_name = 'Zan Baldwin';
+
         $comments = [
-            [
-                [
-                    'comment' => 'Great talk!',
-                    'user_display_name' => 'Peter Fisher',
-                ],
-                [
-                    'comment' => 'Text on slides could be bigger.',
-                    'user_display_name' => 'Michael Bush',
-                ],
-                [
-                    'comment' => 'Speak slower.',
-                    'user_display_name' => 'Zan Baldwin',
-                ],
-            ],
+            [$comment1, $comment2, $comment3],
         ];
 
         $picker = new Picker();

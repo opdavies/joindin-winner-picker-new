@@ -77,8 +77,8 @@ class Picker
     {
         $this->comments = $comments
             ->flatten(1)
-            ->filter(function (array $comment) {
-                return !$this->isUserAnEventHost($comment['user_display_name']);
+            ->filter(function (\stdClass $comment) {
+                return !$this->isUserAnEventHost($comment->user_display_name);
             })
             ->values();
 
