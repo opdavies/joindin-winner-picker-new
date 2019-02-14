@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Comment;
 use Tightenco\Collect\Support\Collection;
 
 class Picker
@@ -79,6 +80,12 @@ class Picker
             ->flatten(1)
             ->filter(function (\stdClass $comment) {
                 return !$this->isUserAnEventHost($comment->user_display_name);
+            })
+            ->map(function (\stdClass $original) {
+                return tap(new Comment(), function (Comment $comment) use ($original) {
+                    $comment->setText($original->comment);
+                    $comment->setUserDisplayName($original->user_display_name);
+                });
             })
             ->values();
 

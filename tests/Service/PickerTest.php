@@ -96,8 +96,8 @@ class PickerTest extends TestCase
             ->getComments();
 
         $this->assertCount(2, $comments);
-        $this->assertSame('Peter Fisher', $comments[0]->user_display_name);
-        $this->assertSame('Zan Baldwin', $comments[1]->user_display_name);
+        $this->assertSame('Peter Fisher', $comments[0]->getUserDisplayName());
+        $this->assertSame('Zan Baldwin', $comments[1]->getUserDisplayName());
     }
 
     /** @test */
