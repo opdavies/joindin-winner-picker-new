@@ -22,6 +22,11 @@ class PickWinnerCommand extends Command
     private $client;
 
     /**
+     * @var \Symfony\Contracts\Cache\CacheInterface
+     */
+    private $cache;
+
+    /**
      * @var \App\Service\Picker
      */
     private $picker;
@@ -36,6 +41,7 @@ class PickWinnerCommand extends Command
     {
       parent::__construct();
         $this->client = new Client();
+        $this->cache = new FilesystemCache();
         $this->picker = $picker;
     }
 
@@ -69,11 +75,9 @@ class PickWinnerCommand extends Command
           'end date' => $endDate,
         ]);
 
-//        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
-        $cache = new FilesystemCache();
-        $cacheKey = md5(collect([$tag, $startDate, $endDate])->implode('_'));
+        $cacheKey = md5(collect(['events:', $tag, $startDate, $endDate])->implode('_'));
 
-        if (!$events = $cache->get($cacheKey)) {
+        if (!$events = $this->cache->get($cacheKey)) {
             $response = $this->client->get('http://api.joind.in/v2.1/events', [
                 'query' => [
                     'tags' => [$tag],
@@ -83,7 +87,7 @@ class PickWinnerCommand extends Command
                 ]
             ]);
 
-            $cache->set($cacheKey, json_decode($response->getBody())->events, 3600);
+            $this->cache->set($cacheKey, json_decode($response->getBody())->events, 3600);
         }
 
         $events = collect($events);
