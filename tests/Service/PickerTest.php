@@ -4,6 +4,7 @@ namespace App\Tests\Service;
 
 use App\Comment;
 use App\Service\Picker;
+use App\Tests\Helpers\Factory\CommentFactory;
 use PHPUnit\Framework\TestCase;
 use Tightenco\Collect\Support\Collection;
 
@@ -41,29 +42,9 @@ class PickerTest extends TestCase
     /** @test */
     public function comments_for_multiple_events_are_flattened_and_combined()
     {
-        $talkTitle = 'A cool Symfony Flex talk';
-
-        $comment1 = new \stdClass();
-        $comment1->comment = 'Great talk!';
-        $comment1->user_display_name = 'Dan Ackroyd';
-        $comment1->uri = 'http://api.joind.in/v2.1/talk_comments/123';
-        $comment1->talk_title = $talkTitle;
-
-        $comment2 = new \stdClass();
-        $comment2->comment = 'Could be better.';
-        $comment2->user_display_name = 'Lucia Velasco';
-        $comment2->uri = 'http://api.joind.in/v2.1/talk_comments/456';
-        $comment2->talk_title = $talkTitle;
-
-        $comment3 = new \stdClass();
-        $comment3->comment = 'Needs more cat pictures.';
-        $comment3->user_display_name = 'Rupert Jabelman';
-        $comment3->uri = 'http://api.joind.in/v2.1/talk_comments/789';
-        $comment3->talk_title = $talkTitle;
-
         $data = [
-            [$comment1, $comment2],
-            [$comment3],
+            (new CommentFactory())->setCount(2)->create(),
+            (new CommentFactory())->setCount(1)->create(),
         ];
 
         $comments = (new Picker())
@@ -77,72 +58,29 @@ class PickerTest extends TestCase
     /** @test */
     public function comments_from_event_hosts_cannot_be_picked()
     {
+        $comments = (new CommentFactory())->setCount(3)->create();
+
         $event = [
             'hosts' => [
-                ['host_name' => 'Oliver Davies'],
+                ['host_name' => $hostName = $comments[1]->user_display_name],
             ],
         ];
 
-        $talkTitle = 'Another awesome PHP talk';
-
-        $comment1 = new \stdClass();
-        $comment1->comment = 'Great talk!';
-        $comment1->user_display_name = 'Peter Fisher';
-        $comment1->uri = 'http://api.joind.in/v2.1/talk_comments/123';
-        $comment1->talk_title = $talkTitle;
-
-        $comment2 = new \stdClass();
-        $comment2->comment = 'Text on slides could be bigger.';
-        $comment2->user_display_name = 'Oliver Davies';
-        $comment2->uri = 'http://api.joind.in/v2.1/talk_comments/456';
-        $comment2->talk_title = $talkTitle;
-
-        $comment3 = new \stdClass();
-        $comment3->comment = 'Speak slower.';
-        $comment3->user_display_name = 'Zan Baldwin';
-        $comment3->uri = 'http://api.joind.in/v2.1/talk_comments/789';
-        $comment3->talk_title = $talkTitle;
-
-        $comments = [
-            [$comment1, $comment2, $comment3],
-        ];
-
-        $comments = (new Picker())
+        /** @var \Tightenco\Collect\Support\Collection $userNames */
+        $userNames = (new Picker())
             ->setHosts(collect([$event]))
             ->setComments(collect($comments))
-            ->getComments();
+            ->getComments()
+            ->map->getUserDisplayName();
 
-        $this->assertCount(2, $comments);
-        $this->assertSame('Peter Fisher', $comments[0]->getUserDisplayName());
-        $this->assertSame('Zan Baldwin', $comments[1]->getUserDisplayName());
+        $this->assertCount(2, $userNames);
+        $this->assertFalse($userNames->contains($hostName));
     }
 
     /** @test */
     public function winners_can_be_selected()
     {
-        $talkTitle = 'A super talk about PHP';
-
-        $comment1 = new \stdClass();
-        $comment1->comment = 'Great talk!';
-        $comment1->user_display_name = 'Peter Fisher';
-        $comment1->uri = 'http://api.joind.in/v2.1/talk_comments/123';
-        $comment1->talk_title = $talkTitle;
-
-        $comment2 = new \stdClass();
-        $comment2->comment = 'Text on slides could be bigger.';
-        $comment2->user_display_name = 'Michael Bush';
-        $comment2->uri = 'http://api.joind.in/v2.1/talk_comments/456';
-        $comment2->talk_title = $talkTitle;
-
-        $comment3 = new \stdClass();
-        $comment3->comment = 'Speak slower.';
-        $comment3->user_display_name = 'Zan Baldwin';
-        $comment3->uri = 'http://api.joind.in/v2.1/talk_comments/789';
-        $comment3->talk_title = $talkTitle;
-
-        $comments = [
-            [$comment1, $comment2, $comment3],
-        ];
+        $comments = (new CommentFactory())->setCount(3)->create();
 
         $picker = new Picker();
         $picker->setComments(collect($comments));
