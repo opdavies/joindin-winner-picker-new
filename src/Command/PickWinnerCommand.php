@@ -40,7 +40,7 @@ class PickWinnerCommand extends Command
      */
     public function __construct(Picker $picker)
     {
-      parent::__construct();
+        parent::__construct();
         $this->client = new Client();
         $this->cache = new FilesystemCache();
         $this->picker = $picker;
